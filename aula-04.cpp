@@ -1,82 +1,94 @@
 #include <iostream>
+#include <cmath>
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
 
+void frasePreferida()
+{
+    cout << "Eu adoro a EMAp!" << endl;
+}
+
+void montaFrases(char chArtigo, string strPalavra)
+{
+    cout << "Eu adoro " << chArtigo << " " << strPalavra << "!" << endl;
+}
+
+void montaFrasePadrao(char chArtigo = 'a', string strPalavra = "")
+{
+    cout << "Eu adoro " << chArtigo << " " << strPalavra << "!" << endl;
+}
+
+int potenciacao(int iBase, int iExpoente)
+{
+    return pow(iBase, iExpoente);
+}
+
+float modulo(float iValor)
+{
+    return fabs(iValor);
+}
+
+void minhaFuncao(int arriNumeros[], int iTamnanhoVetor)
+{
+    for(int i=0; i < iTamnanhoVetor; i++)
+    {
+        cout << arriNumeros[i] << endl;
+    }
+}
+
+int soma(int iValor1, int iValor2) // Asssinatura -> soma(int,int)
+{
+    return iValor1 + iValor2;
+}  
+
+// Sobrecarga de função
+int soma(int iValor1, int iValor2, int iValor3) // Asssinatura -> soma(int,int,int)
+{
+    return iValor1 + iValor2 + iValor3;
+}
+
 int main()
 {
-    int iContador = 0;
-    while (iContador < 5)
-    {
-        cout << iContador << endl;
-        iContador++;
-    }
+    frasePreferida();
+    frasePreferida();
+    frasePreferida();
+    cout << "==============================" << endl;
 
-    iContador = 42;
-    do {
-        cout << iContador << endl;
-        iContador++;
-    }
-    while (iContador <= 5);
+    montaFrases('o', "Yuri");
+    montaFrases('a', "EMAp");
+    cout << "==============================" << endl;
 
-    for (int i = 1; i < 11; i++)
-    {
-        for (int j = 1; j < 11; j++)
-        {
-            cout << "(" << i << "," << j << ")" << endl;
-        }   
-    }
+    montaFrasePadrao();
+    montaFrasePadrao('o', "Yuri");
+    cout << "==============================" << endl;
 
-    //TIPO NOME TAMANHO
-    int x[100] = {0};
-    cout << "x[0] = " << x[0] << ", endereco: " << &x[0] << endl;
-    cout << "x[1] = " << x[1] << ", endereco: " << &x[1] << endl;
-    cout << "x[99] = " << x[99] << ", endereco: " << &x[99] << endl;
-    cout << "Tamanho de x = " << sizeof(x)/sizeof(x[0]) << endl;  //len()
-    cout << "-------------------------------------------" << endl;
+    cout << potenciacao(2,10) << endl;
+    cout << potenciacao(3,5) << endl;
+    cout << "==============================" << endl;
 
-    int array[4];
+    cout << "modulo(2) " << modulo(2) << endl;
+    cout << "modulo(-2) " << modulo(-2) << endl;
 
-    array[0] = 8;
-    array[1] = 64;
-    array[2] = 256;
-    array[3] = 512;
+    cout << "modulo(2.7) " << modulo(2.7) << endl;
+    cout << "modulo(-2.7) " << modulo(-2.7) << endl; 
+    cout << "==============================" << endl;
 
-    cout << "array[0] = " << array[0] << ", endereco: " << &array[0] << endl;
-    cout << "array[1] = " << array[1] << ", endereco: " << &array[1] << endl;
-    cout << "array[2] = " << array[2] << ", endereco: " << &array[2] << endl;
-    cout << "array[3] = " << array[3] << ", endereco: " << &array[3] << endl;
-    cout << "array[4] = " << array[4] << ", endereco: " << &array[4] << endl; //WTF
-    cout << "Tamanho de array = " << sizeof(array)/sizeof(array[0]) << endl;  //len()
-    cout << "-------------------------------------------" << endl;
+    int arriVetorTeste[5] = {0, 7, 13, 42, 666};
+    int iTamanhovetor = sizeof(arriVetorTeste)/sizeof(arriVetorTeste[0]);
 
-    if (array == &array[0]) {cout << "Faz Sentido!" << endl;}
+    minhaFuncao(arriVetorTeste, iTamanhovetor);
+    cout << "==============================" << endl;
 
-    // Row Major
-    int arriTest1[2][3] = {2,4,5,9,0,19};
-    int arriTest2[2][3] = {{2,4,5},{9,0,19}};
+    int iNum1 = 10;
+    int iNum2 = 20;
+    int iNum3 = 30;
 
-    cout << "--- Testando Array 1 ---" << endl;
-
-    for (int i = 0; i < 2; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            cout << "Array 1 em [" << i << "][" << j << "] = " << arriTest1[i][j] << ", Endereço: " << &arriTest1[i][j] << endl;
-        }
-        
-    }
-
-    for (int i = 0; i < 2; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            cout << "Array 2 em [" << i << "][" << j << "] = " << arriTest2[i][j] << ", Endereço: " << &arriTest2[i][j] << endl;
-        }
-        
-    }
+    cout << soma(iNum1, iNum2) << endl;
+    cout << soma(iNum1, iNum2, iNum3) << endl;
+    cout << "==============================" << endl;
 
     return 0;
-} 
+}
