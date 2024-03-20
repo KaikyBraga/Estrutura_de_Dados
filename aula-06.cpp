@@ -6,7 +6,7 @@ using std::string;
 
 int main()
 {
-    // É possível criar uma variável do tió Streaming com os seguintes valores aceitos:
+    // É possível criar uma variável do tipo Streaming com os seguintes valores aceitos:
     enum Streaming {AppleTV, AmazonPrime, CrunchyRoll, DisneyPlus, NetFlix, Max, StartPlus};
 
     Streaming streamingSubscription = CrunchyRoll;
