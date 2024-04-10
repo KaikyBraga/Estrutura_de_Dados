@@ -5,13 +5,11 @@ using std::endl;
 using std::string;
 
 
-
-
 // IMPLEMENTAÇÂO DE UMA PILHA
 typedef struct Node
 {
     int iData;
-    struct Node* ptrNext;
+    Node* ptrNext;
 } Node;
 
 typedef struct Stack
@@ -19,58 +17,56 @@ typedef struct Stack
     Node* ptrTop;
 } Stack;
 
-Node* nemNode(int iValue)
+Stack* newStack();
+Node* newNode(int);
+void push(Stack* const, int);
+void showTopElement(Stack* const);
+void showElements(Stack* const);
+void pop(Stack* const);
+
+int main()
+{ 
+    // 1. Função que exibe o elemento do topo
+    // 2. função que exibe todos os elementos
+    // 3. função que remove um nó
+
+    Stack* stack = newStack();
+    pop(stack);
+    cout << "---------------------" << endl;
+    showTopElement(stack);
+    cout << "---------------------" << endl;
+    push(stack, 0);
+    showTopElement(stack);    
+    cout << "---------------------" << endl;
+    push(stack, 3);
+    showTopElement(stack);
+    cout << "---------------------" << endl;
+    push(stack, 7);
+    showTopElement(stack);
+    cout << "---------------------" << endl;
+    push(stack, 10);
+    showTopElement(stack);
+    cout << "---------------------" << endl;
+    push(stack, 13);
+    showTopElement(stack);
+    push(stack, 42);
+    showTopElement(stack);
+    cout << "=====================" << endl;
+    showElements(stack);
+    cout << "---------------------" << endl;
+    pop(stack);
+    showTopElement(stack);
+    
+    return 0;
+}
+
+Node* newNode(int iValue)
 {
-    Node* temp = (Node*) malloc(sizeof(Stack));
+    Node* temp = (Node*) malloc(sizeof(Node));
     temp->iData = iValue;
     temp->ptrNext = nullptr;
 
     return temp;
-}
-
-void showTopElement(Stack* const);
-void showElements(Stack* const);
-void push(Stack* const, int);
-void pop(Stack* const);
-
-Stack* newStack();
-
-int main()
-{
-    // 2. Função que exibe os elementos
-    // 3. Função que temove um nó
-
-    Stack*stack = newStack();
-    pop(stack);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-    push(stack, 0);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-    push(stack, 3);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-    push(stack, 7);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-    push(stack, 10);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-    push(stack, 13);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-    push(stack, 42);
-    showTopElement(stack);
-    showElements(stack);
-    cout << "----------------" << endl;
-
-    return 0;
 }
 
 Stack* newStack()
@@ -81,9 +77,10 @@ Stack* newStack()
     return temp;
 }
 
+
 void push(Stack* const stack, int iValue)
 {
-    Node* temp = nemNode(iValue);
+    Node* temp = newNode(iValue);
 
     temp->ptrNext = stack->ptrTop;
     stack->ptrTop = temp;
@@ -93,30 +90,31 @@ void push(Stack* const stack, int iValue)
 
 void pop(Stack* const stack)
 {
-    if(stack->ptrTop == nullptr)
+    if (stack->ptrTop == nullptr)
     {
         cout << "Pilha Vazia" << endl;
         return;
-    }
+    } 
 
     cout << "Elemento Removido: " << stack->ptrTop->iData << endl;
-
+    
     Node* temp = stack->ptrTop;
 
     stack->ptrTop = stack->ptrTop->ptrNext;
 
     free(temp);
-}
 
+    return;
+}
 
 void showTopElement(Stack* const stack)
 {
-    cout << "Topo da Pilha: " << ((stack->ptrTop != nullptr) ? (stack->ptrTop)-> iData : -1) << endl;
+    cout << "Topo da pilha: " << ((stack->ptrTop != nullptr) ? (stack->ptrTop)->iData : -1) << endl;
 }
 
 void showElements(Stack* const stack)
 {
-    if(stack->ptrTop == nullptr)
+    if (stack->ptrTop == nullptr)
     {
         cout << "Pilha Vazia" << endl;
         return;
@@ -129,5 +127,4 @@ void showElements(Stack* const stack)
         cout << "Elemento: " << current->iData << endl;
         current = current->ptrNext;
     }
-    
 }
