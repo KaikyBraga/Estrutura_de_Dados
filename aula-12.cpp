@@ -23,6 +23,9 @@ void push(Stack* const, int);
 void showTopElement(Stack* const);
 void showElements(Stack* const);
 void pop(Stack* const);
+bool IsEmpty(Stack* const);
+void FreeStack(Stack* const);
+void invertStack(Stack* const);
 
 int main()
 { 
@@ -56,6 +59,16 @@ int main()
     cout << "---------------------" << endl;
     pop(stack);
     showTopElement(stack);
+    cout << "---------------------" << endl;
+    showElements(stack);
+    cout << "---------------------" << endl;
+    invertStack(stack);
+    showElements(stack);
+    cout << "---------------------" << endl;
+    FreeStack(stack);
+    showElements(stack);
+
+
     
     return 0;
 }
@@ -127,4 +140,34 @@ void showElements(Stack* const stack)
         cout << "Elemento: " << current->iData << endl;
         current = current->ptrNext;
     }
+}
+
+bool IsEmpty(Stack* const stack)
+{
+    return (stack->ptrTop == nullptr);
+}
+
+void FreeStack(Stack* const stack)
+{
+    while (!IsEmpty(stack))
+    {
+        pop(stack);
+    }
+}
+
+void invertStack(Stack* const stack)
+{
+    Stack* invertstack = newStack();
+
+    // Adicionar o elemento do topo na InvertStack
+    // Remover o elemento do topo da Stack
+
+    while (!IsEmpty(stack))
+    {
+        push(invertstack, stack->ptrTop->iData);
+        pop(stack);
+    }
+    
+    FreeStack(stack);
+    stack->ptrTop = invertstack->ptrTop;
 }
