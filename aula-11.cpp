@@ -109,6 +109,95 @@ void showElements(Queue* const queue)
     }
 }
 
+// Calcula o tamanho da fila
+int SizeQueue(Queue* const queue)
+{
+    int lenQueue = 0;
+
+    if (queue->front == nullptr)
+    {
+        return 0;
+    }
+
+    else
+    {
+        Node* current = queue->front;
+
+        while (current != nullptr)
+        {
+            lenQueue ++;
+            current = current->next;
+        }
+        
+        return lenQueue;
+    }
+}
+
+// Verifica se a fila está vazia
+bool IsEmpty(Queue* const queue)
+{
+    return (queue->front == nullptr);
+}
+
+// Esvazia a fila
+void Clear(Queue* const queue)
+{
+    while (IsEmpty(queue) != true)
+    {
+        deQueue(queue);
+    }
+    return;
+}
+
+// Verificar o número de elementos que está na fila
+int InQueue(Queue* const queue, int iValue)
+{
+    int iQuantValues = 0;
+
+    Node* current = queue->front;
+    
+    while (current != nullptr)
+    {
+        if (current->iData == iValue)
+            iQuantValues++;
+
+        current = current->next;
+    }
+
+    return iQuantValues;
+}
+
+// Realiza dos valores da fila
+int SumQueue(Queue* const queue)
+{
+    int iSum = 0;
+
+    if (queue->front == nullptr)
+        return iSum;
+
+    Node* current = queue->front;
+
+    while (current != nullptr)
+    {
+        iSum += current->iData;
+        current = current->next;
+    }
+
+    return iSum;
+}
+
+// Média de elementos da fila
+int MeanQueue(Queue* const queue)
+{
+    int iSumQueue = SumQueue(queue);
+    int iLenQueue = SizeQueue(queue);
+
+    if (iLenQueue == 0) 
+        return 0;
+
+    return iSumQueue/iLenQueue;
+}
+
 int main()
 { 
     // 1. Estrutura de um nó
