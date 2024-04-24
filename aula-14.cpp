@@ -20,10 +20,9 @@ typedef struct Node
 Node* createNode(int);
 void insertFront(Node**, int);
 void insertEnd(Node**, int);
+void insertAfter(Node*, int);
+void deleteNode(Node**, Node*);
 void displayList(Node*);
-
-
-
 
 int main()
 {
@@ -45,7 +44,7 @@ int main()
 
 Node* createNode(int iPayload)
 {
-    Node* temp = (Node*)malloc(sizeof(Node));
+    Node* temp = (Node*) malloc(sizeof(Node));
     temp -> iPayload = iPayload;
     temp -> ptrNext = nullptr;
     temp -> ptrPrev = nullptr;
@@ -84,7 +83,18 @@ void displayList(Node* node)
 void insertFront(Node** head, int iPayload)
 {
     Node* newNode = createNode(iPayload);
-    //TODO
+    // newNode->ptrPrev = nullptr;
+    
+    if (*head != nullptr)
+    {
+        (*head)->ptrPrev = newNode;
+        newNode->ptrNext = (*head);
+        (*head) = newNode;
+        
+        return;
+    }
+    
+    (*head) = newNode;
 }
 
 void insertEnd(Node** head, int iPayload)
@@ -108,3 +118,55 @@ void insertEnd(Node** head, int iPayload)
   newNode -> ptrPrev = temp; //newNode aponta para o fim da lista
   temp -> ptrNext = newNode; //Antigo último elemento aponta para o novo nó
 }
+
+void insertAfter(Node* ptrLocation, int iPayload)
+{
+    
+    if (ptrLocation == nullptr)
+    {
+        cout << "Location é NULL." << endl; 
+        return;
+    }
+    
+    // Corrigir nó a ser inserido
+    Node* newNode = createNode(iPayload);
+    newNode->ptrNext = ptrLocation->ptrNext;
+    newNode-->ptrPrev = ptrLocation;
+    
+    // Corrigir o ponto de inserção
+    ptrLocation->ptrNext = newNode;
+    
+    // Caso o exista elemento na frente do elemento adicionado
+    if (newNode->ptrNext != nullptr)
+    {
+        newNode->ptrNext->ptrPrev = newNode;
+    }
+    
+}
+
+void deleteNode(Node** head, Node* ptrDelete)
+{
+    if (*head == nullptr || ptrDelete == nullptr)   
+    {
+        cout << "Não foi possível remover." << endl;
+        return;
+    }
+    
+    // Caso o ptrDelete seja o primeiro elemento da lista
+    if (*head == ptrDelete) 
+        (*head) = ptrDelete->ptrNext;
+    
+    // Se o ptrDelete não é o último nó
+    if (ptrDelete->ptrNext != nullptr) 
+        ptrDelete->ptrNext->ptrPrev = ptrDelete->ptrPrev; 
+    
+    // Se o ptrDelete não é o primeiro nó
+    if (ptrDelete->ptrPrev != nullptr)
+        ptrDelete->ptrPrev->ptrNext ptrDelete->ptrNext;
+    
+    free(ptrDelete);
+}
+
+// Exercício 1. Elaborar a função void insertBefore(Node*, int)
+// Exercício 2. Elaborar a função void deleteNodebyValue(Node*, int)
+// Exercício 3. Elaborar a função Node* searchNOdebyValue(Node*, int)
