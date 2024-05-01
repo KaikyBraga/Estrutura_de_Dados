@@ -29,6 +29,8 @@ void deleteNode(Node**, Node*);
 void displayList(Node*);
 Node* searchNodebyValue(Node*, int);
 void deleteNodebyValue(Node*, int);
+void swapValue(Node*, Node*);
+void bubbleSort(Node* , int);
 
 int main()
 {
@@ -68,8 +70,15 @@ int main()
     cout << "Deletando no por valor" << endl;
     deleteNodebyValue(head, 89); // 89 não está na lista (Caso especial)
     deleteNodebyValue(head, 61); 
-    deleteNodebyValue(head, 10); 
-
+    deleteNodebyValue(head, 10);
+    displayList(head);
+    cout << "=======================" << endl;
+    cout << "Testando Troca de carga da lista:" << endl;
+    swapValue(head, head->ptrNext);
+    displayList(head);
+    cout << "=======================" << endl;
+    cout << "Ordenando a lista com o Bubble Sort:" << endl;
+    bubbleSort(head, 9);
     displayList(head);
 
     return 0;
@@ -300,6 +309,40 @@ void deleteNodebyValue(Node* head, int iPayload)
     deleteNode(&head, searchNodebyValue(head, iPayload));
 }
 
-// Exercício 1. Elaborar a função void insertBefore(Node*, int)
-// Exercício 2. Elaborar a função void deleteNodebyValue(Node*, int)
-// Exercício 3. Elaborar a função Node* searchNodebyValue(Node*, int)
+void swapValue(Node* node1, Node* node2)
+{
+    // Essa função troca os valores dos nós passados.
+
+    int iTemp = node1->iPayload;
+    node1->iPayload = node2->iPayload;
+    node2->iPayload = iTemp;
+}
+
+void bubbleSort(Node* head, int iLength)
+{
+    // Essa função realiza o ordenamento da lista.
+    
+    bool bUnordered = false;
+    Node* current = head;
+
+    for (int iOuterLoop = 0; iOuterLoop < iLength-1; iOuterLoop++)
+    {
+        // Booleano de desordenado
+        bUnordered = false;
+        current = head;
+
+        for (int iInnerLoop = 0; iInnerLoop < iLength-1-iOuterLoop; iInnerLoop++)
+        {
+            if (current->iPayload > current->ptrNext->iPayload)
+            {
+                swapValue(current, current->ptrNext);
+                bUnordered = true;
+            }
+            current = current->ptrNext;
+        }
+
+        if (bUnordered == false) break;
+    }
+}
+
+

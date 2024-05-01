@@ -57,6 +57,7 @@ int main()
     return 0;
 }
 
+
 void swapValue(int& irefValue_1, int& irefValue_2)
 {
     int iTemp = irefValue_1;
@@ -64,14 +65,11 @@ void swapValue(int& irefValue_1, int& irefValue_2)
     irefValue_2 = iTemp;
 }
 
-
-
 void printArray(int arrNumbers[], int iLength)
 {
     for (int i = 0; i < iLength; i++) cout << arrNumbers[i] << " ";
     cout << endl;
 }
-
 
 void bubbleSort(int arrINumbers[], int iLength)
 {  
