@@ -31,6 +31,8 @@ Node* searchNodebyValue(Node*, int);
 void deleteNodebyValue(Node*, int);
 void swapValue(Node*, Node*);
 void bubbleSort(Node* , int);
+void selectionSort(Node*);
+void optimizedSelectionSort(Node*);
 
 int main()
 {
@@ -346,3 +348,78 @@ void bubbleSort(Node* head, int iLength)
 }
 
 
+void selectionSort(Node* head)
+{
+    /*Essa função realiza a ordenação de uma lista duplamente encadeada 
+    por meio do método Selection Sort*/
+
+    // Inicializando nós para percorrerem a lista
+    Node* OuterNode = head;
+    Node* InnerNode = head;
+
+    // Realizando verificação para todos os nós
+    while(OuterNode != nullptr)
+    {
+        // O nó de troca recebe o nó posterior ao de fora
+        InnerNode = OuterNode->ptrNext;
+
+        // O nó de dentro percorre até o último elemento da lista
+        while (InnerNode != nullptr)
+        {
+            // Condição de Troca
+            if (OuterNode->iPayload < InnerNode->iPayload)
+            {
+                swapValue(OuterNode, InnerNode);
+            }
+
+            InnerNode = InnerNode->ptrNext;
+        }
+
+        OuterNode = OuterNode->ptrNext;
+    }
+}
+
+
+void optimizedSelectionSort(Node* head)
+{
+    /*Essa função realiza a ordenação de uma lista duplamente encadeada 
+    por meio do método Selection Sort de maneira otimizada.*/
+
+    int minValue = 0;
+
+    // Inicializando nós para percorrerem a lista
+    Node* OuterNode = head;
+    Node* InnerNode = head;
+    Node* SwapNode = head;
+
+    // Realizando verificação para todos os nós
+    while(OuterNode != nullptr)
+    {
+        // O nó de dentro recebe o nó posterior ao de fora
+        InnerNode = OuterNode->ptrNext;
+
+        // O nó de troca recebe o nó de fora
+        SwapNode = OuterNode;
+
+        // O valor mínimo é inicialiazado com valor do nó de fora
+        minValue = OuterNode->iPayload;
+
+        // Verificação para todos nós posteriores ao de fora
+        while (InnerNode != nullptr)
+        {
+            // Condição de Troca
+            if (minValue > InnerNode->iPayload)
+            {
+                minValue = InnerNode->iPayload;
+                SwapNode = InnerNode;
+            }
+
+            InnerNode = InnerNode->ptrNext;
+        }
+
+        // Troca de valores entre os nós
+        swapValue(OuterNode, SwapNode); 
+
+        OuterNode = OuterNode->ptrNext;
+    }
+}
