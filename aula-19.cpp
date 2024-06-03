@@ -13,6 +13,9 @@ typedef struct Node
 
 Node* newNode(int);
 Node* insertNode(Node*, int);
+Node* searchNode(Node*, int);
+Node* lesserLeaf(Node*);
+Node* deleteNode(Node*, int);
 
 void traversePreOrder(Node*);
 void traverseInOrder(Node*);
@@ -33,19 +36,27 @@ int main()
     root_2->ptrRight = newNode(666);
     root_2->ptrLeft->ptrLeft = newNode(1);
     root_2->ptrLeft->ptrRight = newNode(13);
-   
-    cout << "Atravessar Root_2 - PreOrder:";
-    traversePreOrder(root_2);
-    cout << endl;
     
-    cout << "Atravessar Root_2 - InOrder:";
-    traverseInOrder(root_2);
-    cout << endl;
+    // Teste: searchNode em Root 2
+    string resultado;
     
-    cout << "Atravessar Root_2 - PostOrder:";
-    traversePostOrder(root_2);
-    cout << endl;
-   
+    resultado = (nullptr == searchNode(nullptr, 42))? "OK" : "Deu Ruim";
+    cout << "Busca nullptr: " << resultado << endl;
+    
+    resultado = (root_2 == searchNode(root_2, 42))? "OK" : "Deu Ruim";
+    cout << "Busca 42: " << resultado << endl;
+    
+    resultado = (root_2->ptrLeft == searchNode(root_2, 7))? "OK" : "Deu Ruim";
+    cout << "Busca 7: " << resultado << endl;
+
+    resultado = (root_2->ptrLeft->ptrLeft == searchNode(root_2, 1))? "OK" : "Deu Ruim";
+    cout << "Busca 1: " << resultado << endl;
+    
+    resultado = (nullptr == searchNode(root_2, 10))? "OK" : "Deu Ruim";
+    cout << "Busca Não-Existente: " << resultado << endl;
+
+    cout << "####################" << endl;
+
     //Exemplo 3, com insertNode
     Node* root = nullptr;
     root = insertNode(root, 42);
@@ -54,17 +65,43 @@ int main()
     root = insertNode(root, 1);
     root = insertNode(root, 13);
     
-    cout << "Atravessar Root - PreOrder:";
+    // Traverse - Atravessar Root 2
+    cout << "Atravessar - preorder: ";
+    traversePreOrder(root_2);
+    cout << endl;
+    
+    cout << "Atravessar - inorder: ";
+    traverseInOrder(root_2);
+    cout << endl;
+    
+    cout << "Atravessar - postorder: ";
+    traversePostOrder(root_2);
+    cout << endl;
+    
+    // Traverse - Atravessar Root
+    cout << "Atravessar - preorder: ";
     traversePreOrder(root);
     cout << endl;
     
-    cout << "Atravessar Root - InOrder:";
+    cout << "Atravessar - inorder: ";
     traverseInOrder(root);
     cout << endl;
     
-    cout << "Atravessar Root - PostOrder:";
+    cout << "Atravessar - postorder: ";
     traversePostOrder(root);
-    cout << endl;    
+    cout << endl;
+    
+    cout << "####################" << endl;
+    
+    cout << "Atravessar - preorder: ";
+    traversePreOrder(root);
+    cout << endl;
+    
+    deleteNode(root, 7);
+    
+    cout << "Atravessar - preorder: ";
+    traversePreOrder(root);
+    cout << endl;
     
     return 0;
 }
@@ -98,8 +135,58 @@ Node* insertNode(Node* startingNode, int iData)
     {
         startingNode->ptrRight = insertNode(startingNode->ptrRight, iData);
     }
+    
+    return startingNode;
+}
 
-   return startingNode;
+Node* searchNode(Node* startingNode, int iData)
+{
+    if(startingNode == nullptr) return nullptr;
+    else if(iData == startingNode->iPayload) return startingNode;
+    else if(iData < startingNode->iPayload) return searchNode(startingNode->ptrLeft, iData);
+    else return searchNode(startingNode->ptrRight, iData);
+}
+
+Node* lesserLeaf(Node* startingNode)
+{
+    Node* ptrCurrent = startingNode;
+ 
+    while (ptrCurrent && ptrCurrent->ptrLeft != nullptr) ptrCurrent = ptrCurrent->ptrLeft;
+    
+    return ptrCurrent;
+}
+
+Node* deleteNode(Node* startingNode, int iData)
+{
+    if (startingNode == nullptr) return nullptr;
+    
+    if (iData < startingNode->iPayload) startingNode->ptrLeft = deleteNode(startingNode->ptrLeft, iData);
+    else if (iData > startingNode->iPayload) startingNode->ptrRight = deleteNode(startingNode->ptrRight, iData);
+    else
+    {
+        Node* ptrTemp = nullptr;
+        
+        if (startingNode->ptrLeft == nullptr)
+        {
+            ptrTemp = startingNode->ptrRight;
+            free(startingNode);
+            return ptrTemp;
+        }
+        else if (startingNode->ptrRight == nullptr)
+        {
+            ptrTemp = startingNode->ptrLeft;
+            free(startingNode);
+            return ptrTemp;            
+        }
+        
+        ptrTemp = lesserLeaf(startingNode->ptrRight);
+        
+        startingNode->iPayload = ptrTemp->iPayload;
+        
+        startingNode->ptrRight = deleteNode(startingNode->ptrRight, ptrTemp->iPayload);
+    }
+    
+    return startingNode;
 }
 
 void traversePreOrder(Node* ptrStartingNode)
@@ -112,7 +199,7 @@ void traversePreOrder(Node* ptrStartingNode)
     }
 }
 
-void traverseInOrder(Node* pltrStartingNode)
+void traverseInOrder(Node* ptrStartingNode)
 {
     if (ptrStartingNode != nullptr)
     {
